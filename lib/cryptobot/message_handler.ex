@@ -33,11 +33,15 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def text_reply(event, text) do
+    facebook_config = Application.get_env(:cryptobot, :facebook_config)
+
     %{"recipient" =>
       %{
         "id" => get_sender(event)["id"]
       },
-      "message" =>  %{"text" => text}
+      "message" =>  %{"text" => text},
+      "messaging_type" => "RESPONSE",
+      "access_token" => "#{facebook_config.page_access_token}"
     }
   end
 

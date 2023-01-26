@@ -9,6 +9,7 @@ defmodule Cryptobot.ChatBot do
   def send_message(msg) do
     url = messages_endpoint()
     IO.inspect(url)
+    IO.inspect(msg)
     HTTPoison.post!(url, Jason.encode!(msg))
   end
 
@@ -23,7 +24,6 @@ defmodule Cryptobot.ChatBot do
 
   def messages_endpoint do
     facebook_config = Application.get_env(:cryptobot, :facebook_config)
-    token_path = "?access_token=#{facebook_config.webhook_verify_token}"
-    Path.join([facebook_config.base_url, facebook_config.api_version, facebook_config.message_url, token_path])
+    Path.join([facebook_config.base_url, facebook_config.api_version, facebook_config.message_url])
   end
 end
