@@ -24,7 +24,7 @@ defmodule CryptobotWeb.Router do
     pipe_through :api
 
     get "/messenger_webhook", MessengerController, :verify_token
-    post "/messenger_webhook", MessengerController, :handle_message
+    post "/messenger_webhook", MessengerController, :handle_event
 
   end
 end

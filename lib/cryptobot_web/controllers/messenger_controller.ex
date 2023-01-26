@@ -14,4 +14,12 @@ defmodule CryptobotWeb.MessengerController do
       |> send_resp(401, "")
     end
   end
+
+  def handle_event(conn, event) do
+    Cryptobot.ChatBot.handle_event(event)
+
+    conn
+    |> put_resp_content_type("application/json")
+    |> resp(200, Jason.encode!(%{status: "ok"}))
+  end
 end
