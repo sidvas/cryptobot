@@ -22,7 +22,7 @@ defmodule Cryptobot.ChatBot do
 
   def messages_endpoint do
     facebook_config = Application.get_env(:cryptobot, :facebook_config)
-    token_path = "?access_token=#{facebook_config.webhook_verify_token}"
+    token_path = "?access_token=#{facebook_config.page_access_token}"
     Path.join([facebook_config.base_url, facebook_config.api_version, facebook_config.message_url, token_path])
   end
 end
