@@ -1,5 +1,4 @@
 defmodule Cryptobot.ChatBot do
-  alias Phoenix.Socket.Message
   alias Cryptobot.MessageHandler
 
   def verify(params) do
@@ -10,7 +9,7 @@ defmodule Cryptobot.ChatBot do
   def send_message(msg, event) do
     url = messages_endpoint(event)
     IO.inspect(url)
-    IO.inspect(msg)
+    IO.inspect(Jason.encode!(msg))
     IO.inspect(HTTPoison.post!(url, Jason.encode!(msg)))
   end
 
