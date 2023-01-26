@@ -13,7 +13,7 @@ config :cryptobot, CryptobotWeb.Endpoint,
   render_errors: [view: CryptobotWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Cryptobot.PubSub,
   live_view: [signing_salt: "TSsbEfsQ"],
-  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]]
 
 config :cryptobot,
   facebook_config: %{
