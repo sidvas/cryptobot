@@ -9,7 +9,6 @@ defmodule Cryptobot.ChatBot do
   def send_message(msg) do
     url = messages_endpoint()
     HTTPoison.post!(url, msg)
-    end
   end
 
   def handle_event(event) do
