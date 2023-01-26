@@ -8,6 +8,7 @@ defmodule Cryptobot.ChatBot do
 
   def send_message(msg) do
     url = messages_endpoint()
+    IO.inspect(url)
     HTTPoison.post!(url, Jason.encode!(msg))
   end
 
