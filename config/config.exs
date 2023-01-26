@@ -19,7 +19,7 @@ config :cryptobot,
   facebook_config: %{
     base_url: "https://graph.facebook.com",
     message_url: "/me/messages",
-    api_version: "v15.0",
+    api_version: "/v15.0",
     page_access_token: System.get_env("FACEBOOK_PAGE_TOKEN"),
     webhook_verify_token: System.get_env("FACEBOOK_WEBHOOK_TOKEN")
   }
