@@ -1,4 +1,5 @@
 defmodule Cryptobot.ChatBot do
+  alias Phoenix.Socket.Message
   alias Cryptobot.MessageHandler
 
   def verify(params) do
@@ -6,8 +7,8 @@ defmodule Cryptobot.ChatBot do
     params["hub.mode"] == "subscribe" && params["hub.verify_token"] == facebook_config.webhook_verify_token
   end
 
-  def send_message(msg) do
-    url = messages_endpoint()
+  def send_message(msg, event) do
+    url = messages_endpoint(event)
     IO.inspect(url)
     IO.inspect(msg)
     IO.inspect(HTTPoison.post!(url, Jason.encode!(msg)))
@@ -18,12 +19,12 @@ defmodule Cryptobot.ChatBot do
       %{"message" => msg} -> MessageHandler.reply_with_bot(msg, event)
       _ ->
         err_msg = MessageHandler.text_reply(event, "GG you messsed something up")
-        send_message(err_msg)
+        send_message(err_msg, event)
     end
   end
 
-  def messages_endpoint do
+  def messages_endpoint(event) do
     facebook_config = Application.get_env(:cryptobot, :facebook_config)
-    Path.join([facebook_config.base_url, facebook_config.api_version, facebook_config.message_url])
+    Path.join([facebook_config.base_url, facebook_config.api_version, MessageHandler.get_recipient(event)["id"], facebook_config.message_url])
   end
 end

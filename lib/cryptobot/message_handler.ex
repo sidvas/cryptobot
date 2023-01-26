@@ -48,11 +48,11 @@ defmodule Cryptobot.MessageHandler do
   def reply_with_bot(%{"text" => "hi"}, event) do
     profile = get_profile(event)
     reply = text_reply(event, "Hiya #{profile["first_name"]}")
-    ChatBot.send_message(reply)
+    ChatBot.send_message(reply, event)
   end
 
   def reply_with_bot(_msg, event) do
     reply = text_reply(event, "Unrecognized command, rtfi")
-    ChatBot.send_message(reply)
+    ChatBot.send_message(reply, event)
   end
 end
