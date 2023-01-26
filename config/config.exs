@@ -12,7 +12,12 @@ config :cryptobot, CryptobotWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: CryptobotWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Cryptobot.PubSub,
-  live_view: [signing_salt: "TSsbEfsQ"]
+  live_view: [signing_salt: "TSsbEfsQ"],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  facebook_chat_bot: %{
+    page_access_token: System.get_env("FACEBOOK_PAGE_TOKEN"),
+    webhook_verify_token: System.get_env("FACEBOOK_WEBHOOK_TOKEN")
+  }
 
 # Configures the mailer
 #
