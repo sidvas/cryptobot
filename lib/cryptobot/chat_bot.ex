@@ -8,13 +8,7 @@ defmodule Cryptobot.ChatBot do
 
   def send_message(msg) do
     url = messages_endpoint()
-    case HTTPoison.post(url, msg) do
-      {:ok, res} ->
-        IO.inspect(res)
-        :ok
-      {:error, reason} ->
-        IO.inspect(reason)
-        :error
+    HTTPoison.post!(url, msg)
     end
   end
 
