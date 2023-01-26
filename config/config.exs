@@ -14,8 +14,12 @@ config :cryptobot, CryptobotWeb.Endpoint,
   pubsub_server: Cryptobot.PubSub,
   live_view: [signing_salt: "TSsbEfsQ"],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
-  fb_page_access_token: System.get_env("FACEBOOK_PAGE_TOKEN"),
-  fb_webhook_verify_token: System.get_env("FACEBOOK_WEBHOOK_TOKEN")
+
+config :cryptobot,
+  facebook_config: %{
+    page_access_token: System.get_env("FACEBOOK_PAGE_TOKEN"),
+    webhook_verify_token: System.get_env("FACEBOOK_WEBHOOK_TOKEN")
+  }
 
 
 # Configures the mailer
