@@ -10,7 +10,7 @@ defmodule Cryptobot.ChatBot do
     url = messages_endpoint()
     IO.inspect(url)
     IO.inspect(msg)
-    HTTPoison.post!(url, Jason.encode!(msg))
+    IO.inspect(HTTPoison.post!(url, Jason.encode!(msg)))
   end
 
   def handle_event(event) do
