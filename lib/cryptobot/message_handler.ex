@@ -74,10 +74,9 @@ defmodule Cryptobot.MessageHandler do
     }
   end
 
-  defp format_template(recipient, message, messaging_type \\ "UPDATE") do
+  defp format_template(recipient, message) do
     %{
       "message" => message,
-      "messaging_type" => messaging_type,
       "recipient" => recipient
     }
   end
@@ -85,13 +84,13 @@ defmodule Cryptobot.MessageHandler do
   def reply_with_bot(%{"text" => "hi"}, event) do
     profile = get_profile(event)
     reply = text_reply(event, "Hiya #{profile["first_name"]}, so you wanna search crypto?")
-    ChatBot.send_message(reply, event)
+    ChatBot.send_message(reply)
     search_by_question(event)
   end
 
   def reply_with_bot(_msg, event) do
     reply = text_reply(event, "Unrecognized command, maybe start with 'hi', it's only polite")
-    ChatBot.send_message(reply, event)
+    ChatBot.send_message(reply)
   end
 
   defp search_by_question(event) do
@@ -100,6 +99,6 @@ defmodule Cryptobot.MessageHandler do
       {"ID", "search_by_id"}
     ]
     question = button_message(event, "Would you like to search by name or if you know the ID, I can look that up directly for you?", buttons)
-    ChatBot.send_message(question, event)
+    ChatBot.send_message(question)
   end
 end
