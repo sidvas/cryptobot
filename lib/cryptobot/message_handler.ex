@@ -45,7 +45,7 @@ defmodule Cryptobot.MessageHandler do
     }
   end
 
-  def button_reply(event, text, buttons) do
+  def button_message(event, text, buttons) do
     buttons = Enum.map(buttons, &format_postback_button/1)
     payload = %{
       "template_type" => "button",
@@ -74,9 +74,10 @@ defmodule Cryptobot.MessageHandler do
     }
   end
 
-  defp format_template(recipient, message) do
+  defp format_template(recipient, message, messaging_type \\ "UPDATE") do
     %{
       "message" => message,
+      "messaging_type" => messaging_type,
       "recipient" => recipient
     }
   end
@@ -98,7 +99,7 @@ defmodule Cryptobot.MessageHandler do
       {"Name", "search_by_name"},
       {"ID", "search_by_id"}
     ]
-    question = button_reply(event, "Would you like to search by name or if you know the ID, I can look that up directly for you?", buttons)
+    question = button_message(event, "Would you like to search by name or if you know the ID, I can look that up directly for you?", buttons)
     ChatBot.send_message(question, event)
   end
 end
