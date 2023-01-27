@@ -11,18 +11,16 @@ defmodule Cryptobot.ChatBot do
     HTTPoison.post!(url, Jason.encode!(msg), [{"Content-type", "application/json"}])
   end
 
-  def handle_event(event) do
+  def handle_webhook(event) do
+    #will have to change
     IO.inspect(event)
     case MessageHandler.get_messaging(event) do
-      %{"message" => msg} -> MessageHandler.reply_with_bot(msg, event)
+      %{"message" => msg} -> MessageHandler.reply(msg, event)
+      %{"postback" => postback} -> MessageHandler.reply_to_selection(postback, event)
       _ ->
-        err_msg = MessageHandler.text_reply(event, "GG you messsed something up")
+        err_msg = MessageHandler.text_reply(event, "GG you messsed something up bad")
         send_message(err_msg)
     end
-  end
-
-  def handle_postback(postback) do
-    IO.inspect(postback)
   end
 
   def messages_endpoint() do

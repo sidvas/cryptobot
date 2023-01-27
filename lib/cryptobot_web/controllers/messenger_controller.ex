@@ -16,7 +16,7 @@ defmodule CryptobotWeb.MessengerController do
   end
 
   def handle_event(conn, event) do
-    Cryptobot.ChatBot.handle_event(event)
+    Cryptobot.ChatBot.handle_webhook(event)
 
     conn
     |> put_resp_content_type("application/json")

@@ -24,6 +24,11 @@ config :cryptobot,
     webhook_verify_token: System.get_env("FACEBOOK_WEBHOOK_TOKEN")
   }
 
+config :cryptobot,
+  coingecko_config: %{
+    base_url: "https://api.coingecko.com/api/v3"
+  }
+
 
 # Configures the mailer
 #
