@@ -45,14 +45,60 @@ defmodule Cryptobot.MessageHandler do
     }
   end
 
+  def button_reply(event, text, buttons) do
+    buttons = Enum.map(buttons, &format_postback_button/1)
+    payload = %{
+      "template_type" => "button",
+      "text" => text,
+      "buttons" => buttons
+    }
+    recipient = %{"id" => get_sender(event)["id"]}
+    message = %{"attachment" => format_attachment(payload)}
+
+    format_template(recipient, message)
+  end
+
+
+  defp format_postback_button({title, payload}) do
+    %{
+      "type" => "postback",
+      "title" => title,
+      "payload" => payload
+    }
+  end
+
+  defp format_attachment(payload) do
+    %{
+      "type" => "template",
+      "payload" => payload
+    }
+  end
+
+  defp format_template(recipient, message) do
+    %{
+      "message" => message,
+      "recipient" => recipient
+    }
+  end
+
   def reply_with_bot(%{"text" => "hi"}, event) do
     profile = get_profile(event)
-    reply = text_reply(event, "Hiya #{profile["first_name"]}")
+    reply = text_reply(event, "Hiya #{profile["first_name"]}, so you wanna search crypto?")
     ChatBot.send_message(reply, event)
+    search_by_question(event)
   end
 
   def reply_with_bot(_msg, event) do
-    reply = text_reply(event, "Unrecognized command, rtfi")
+    reply = text_reply(event, "Unrecognized command, maybe start with 'hi'")
     ChatBot.send_message(reply, event)
+  end
+
+  defp search_by_question(event) do
+    buttons = [
+      {"Name", "search_by_name"},
+      {"ID", "search_by_id"}
+    ]
+    question = button_reply(event, "Would you like to search by name or if you know the ID, I can look that up directly for you?", buttons)
+    ChatBot.send_message(question, event)
   end
 end

@@ -8,18 +8,20 @@ defmodule Cryptobot.ChatBot do
 
   def send_message(msg, event) do
     url = messages_endpoint(event)
-    IO.inspect(url)
-    IO.inspect(Jason.encode!(msg))
-    IO.inspect(HTTPoison.post!(url, Jason.encode!(msg), [{"Content-type", "application/json"}]))
+    HTTPoison.post!(url, Jason.encode!(msg), [{"Content-type", "application/json"}])
   end
 
   def handle_event(event) do
     case MessageHandler.get_messaging(event) do
-      %{"message" => msg} -> MessageHandler.reply_with_bot(msg, event)
+      %{"message" => msg} -> MessageHandler.reply_with_bot(String.downcase(msg), event)
       _ ->
         err_msg = MessageHandler.text_reply(event, "GG you messsed something up")
         send_message(err_msg, event)
     end
+  end
+
+  def handle_postback(postback) do
+    IO.inspect(postback)
   end
 
   def messages_endpoint(event) do
