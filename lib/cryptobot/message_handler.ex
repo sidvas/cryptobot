@@ -89,7 +89,7 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply_with_bot(_msg, event) do
-    reply = text_reply(event, "Unrecognized command, maybe start with 'hi'")
+    reply = text_reply(event, "Unrecognized command, maybe start with 'hi', it's only polite")
     ChatBot.send_message(reply, event)
   end
 
