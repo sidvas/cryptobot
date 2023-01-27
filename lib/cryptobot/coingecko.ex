@@ -2,12 +2,12 @@ defmodule Cryptobot.Coingecko do
 
   def lookup_market_chart(coin_id) do
     market_chart_url(coin_id)
-    |> HTTPoison.get(url)
+    |> HTTPoison.get()
   end
 
   def lookup_market_chart!(coin_id) do
     market_chart_url(coin_id)
-    |> HTTPoison.get!(url)
+    |> HTTPoison.get!()
   end
 
   defp market_chart_url(coin_id) do

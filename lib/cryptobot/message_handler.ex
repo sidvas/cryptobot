@@ -141,7 +141,7 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply_to_selection(%{"payload" => id}, event) do
-    File.rm!("#{get_sender(event)["id"])
+    File.rm!("#{get_sender(event)["id"]}.rnd")
     res = Coingecko.lookup_market_chart!(id)
     text_reply(event, res.body["prices"])
     |> ChatBot.send_message()
