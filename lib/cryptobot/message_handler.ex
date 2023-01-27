@@ -100,15 +100,16 @@ defmodule Cryptobot.MessageHandler do
           case Coingecko.lookup_market_chart(msg["text"]) do
             {:ok, res} ->
               File.rm!("#{get_sender(event)["id"]}.rnd")
-              text_reply(event, res.body["prices"])
+              text_reply(event, Jason.decode!(res.body["prices"]))
               |> ChatBot.send_message()
             {:error, _s} ->
               text_reply(event, "Uh oh no coin found with that ID")
               |> ChatBot.send_message()
           end
         else
-          res = Coingecko.search(id_or_name)
-          top_5 = Enum.take(res.body["coins"], 5)
+          res = Coingecko.search!(id_or_name)
+          results = Jason.decode!(res.body["coins"])
+          top_5 = Enum.take(results, 5)
           if top_5 == [] do
             text_reply(event, "Sorry, no results found, try another search term, or say hi again to change your search type")
             |> ChatBot.send_message()
@@ -143,7 +144,7 @@ defmodule Cryptobot.MessageHandler do
   def reply_to_selection(%{"payload" => id}, event) do
     File.rm!("#{get_sender(event)["id"]}.rnd")
     res = Coingecko.lookup_market_chart!(id)
-    text_reply(event, res.body["prices"])
+    text_reply(event, Jason.decode!(res.body["prices"]))
     |> ChatBot.send_message()
   end
 

@@ -15,7 +15,7 @@ defmodule Cryptobot.Coingecko do
     Path.join([coingecko_config.base_url, "coins", coin_id, "?vs_currency=myr&days=14"])
   end
 
-  def search(query) do
+  def search!(query) do
     coingecko_config = Application.get_env(:cryptobot, :coingecko_config)
     url = Path.join([coingecko_config.base_url, "search", "?query=#{query}"])
     HTTPoison.get!(url)
