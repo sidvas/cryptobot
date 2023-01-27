@@ -75,9 +75,13 @@ defmodule Cryptobot.MessageHandler do
   end
 
   defp format_template(recipient, message) do
+    facebook_config = Application.get_env(:cryptobot, :facebook_config)
+
     %{
       "message" => message,
-      "recipient" => recipient
+      "recipient" => recipient,
+      "messaging_type" => "UPDATE",
+      "access_token" => "#{facebook_config.page_access_token}"
     }
   end
 
