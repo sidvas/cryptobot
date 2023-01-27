@@ -13,14 +13,7 @@ defmodule Cryptobot.ChatBot do
 
   def handle_event(event) do
     case MessageHandler.get_messaging(event) do
-      %{"message" => msg} ->
-        Map.get_and_update!(msg, "text", fn t ->
-          n =
-            String.trim(t)
-            |> String.downcase(t)
-          {t, n}
-        end)
-        MessageHandler.reply_with_bot(msg, event)
+      %{"message" => msg} -> MessageHandler.reply_with_bot(msg, event)
       _ ->
         err_msg = MessageHandler.text_reply(event, "GG you messsed something up")
         send_message(err_msg, event)
