@@ -94,22 +94,22 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply(msg, event) do
-    case File.read("#{get_sender(event)["id"]}.rnd")  do
+    case IO.inspect(File.read("#{get_sender(event)["id"]}.rnd"))  do
       {:ok, id_or_name} ->
         if id_or_name == "id" do
           case Coingecko.lookup_market_chart(msg["text"]) do
             {:ok, res} ->
               File.rm!("#{get_sender(event)["id"]}.rnd")
-              text_reply(event, Jason.decode!(res.body["prices"]))
+              stats = Jason.decode!(res.body)
+              text_reply(event, stats["prices"])
               |> ChatBot.send_message()
             {:error, _s} ->
               text_reply(event, "Uh oh no coin found with that ID")
               |> ChatBot.send_message()
           end
         else
-          res = Coingecko.search!(id_or_name)
-          results = Jason.decode!(res.body["coins"])
-          top_5 = Enum.take(results, 5)
+          results = Coingecko.search!(id_or_name)
+          top_5 = Enum.take(results["coins"], 5)
           if top_5 == [] do
             text_reply(event, "Sorry, no results found, try another search term, or say hi again to change your search type")
             |> ChatBot.send_message()
@@ -128,6 +128,7 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply_to_selection(%{"payload" => "search_by_" <> id_or_name}, event) do
+    IO.inspect(File.cwd())
     path = "#{get_sender(event)["id"]}.rnd"
 
     if id_or_name == "id" do
