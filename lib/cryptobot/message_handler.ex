@@ -127,7 +127,7 @@ defmodule Cryptobot.MessageHandler do
     end
   end
 
-  def reply_to_selection(%{"payload" => "search_by" <> id_or_name}, event) do
+  def reply_to_selection(%{"payload" => "search_by_" <> id_or_name}, event) do
     path = "#{get_sender(event)["id"]}.rnd"
 
     if id_or_name == "id" do
