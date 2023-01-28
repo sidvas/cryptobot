@@ -94,7 +94,7 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply(msg, event) do
-    case IO.inspect(File.read("#{get_sender(event)["id"]}.rnd"))  do
+    case File.read("#{get_sender(event)["id"]}.rnd")  do
       {:ok, id_or_name} ->
         if id_or_name == "id" do
           case Coingecko.lookup_market_chart(msg["text"]) do
