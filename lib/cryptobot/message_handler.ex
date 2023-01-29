@@ -101,7 +101,8 @@ defmodule Cryptobot.MessageHandler do
             {:ok, res} ->
               File.rm!("#{get_sender(event)["id"]}.rnd")
               stats = Jason.decode!(res.body)
-              text_reply(event, stats["prices"])
+              prices_data = format_data(stats["prices"])
+              text_reply(event, prices_data)
               |> ChatBot.send_message()
             {:error, _s} ->
               text_reply(event, "Uh oh no coin found with that ID")
@@ -151,7 +152,8 @@ defmodule Cryptobot.MessageHandler do
   def reply_to_selection(%{"payload" => id}, event) do
     File.rm!("#{get_sender(event)["id"]}.rnd")
     res = Coingecko.lookup_market_chart!(id)
-    text_reply(event, Jason.decode!(res.body["prices"]))
+    prices_data = format_data(res.body["prices"])
+    text_reply(event, prices_data)
     |> ChatBot.send_message()
   end
 
@@ -162,5 +164,14 @@ defmodule Cryptobot.MessageHandler do
     ]
     button_message(event, "Would you like to search by name or if you know the ID, I can look that up directly for you?", buttons)
     |> ChatBot.send_message()
+  end
+
+  defp format_data(prices) do
+    Enum.map(prices, fn [t, p] ->
+      time = DateTime.from_unix!(t, :millisecond)
+             |> DateTime.to_string()
+      time <> " Price: $#{p} \n"
+    end)
+    |> List.to_string()
   end
 end

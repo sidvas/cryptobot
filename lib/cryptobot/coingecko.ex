@@ -14,7 +14,7 @@ defmodule Cryptobot.Coingecko do
 
   defp market_chart_url(coin_id) do
     coingecko_config = Application.get_env(:cryptobot, :coingecko_config)
-    Path.join([coingecko_config.base_url, "coins", coin_id, "market_chart", "?vs_currency=usd&days=14"])
+    Path.join([coingecko_config.base_url, "coins", coin_id, "market_chart", "?vs_currency=usd&days=14&interval=daily"])
   end
 
   def search!(query) do
