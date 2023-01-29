@@ -17,3 +17,6 @@ Deployment
   * You need to be added to the project on gigalixir with your user account
   * Simply push the latest changes to master and use `git push gigalixir` to deploy the latest version
   * Your code is deployed to https://passionate-unlawful-redhead.gigalixirapp.com/
+  
+  
+NOTE: Because Cryptobot is currently in dev mode, you need to be added to the Page admin/mod team in order to interact with the bot
