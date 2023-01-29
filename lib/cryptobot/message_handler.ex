@@ -114,7 +114,7 @@ defmodule Cryptobot.MessageHandler do
             text_reply(event, "Sorry, no results found, try another search term, or say hi again to change your search type")
             |> ChatBot.send_message()
           else
-            buttons = Enum.map(Enum.take(top_5, 3), fn e ->
+            buttons = Enum.map(top_5, fn e ->
               {e["name"], e["id"]}
             end)
             if Enum.count(buttons) <= 3 do
