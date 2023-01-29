@@ -150,7 +150,9 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply_to_selection(%{"payload" => id}, event) do
-    File.rm!("#{get_sender(event)["id"]}.rnd")
+    if File.exists?("#{get_sender(event)["id"]}.rnd") do
+      File.rm!("#{get_sender(event)["id"]}.rnd")
+    end
     res = Coingecko.lookup_market_chart!(id)
     prices_data = format_data(res.body["prices"])
     text_reply(event, prices_data)
