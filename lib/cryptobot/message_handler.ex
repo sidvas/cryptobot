@@ -101,8 +101,9 @@ defmodule Cryptobot.MessageHandler do
           case res do
             %{"error" => _err} ->
               text_reply(event, "Uh oh no coin found with that ID, try again or type hi to change search type")
+              |> ChatBot.send_message()
             _ ->
-              File.rm!("#{get_sender(event)["id"]}.rnd")
+              if File.exists?("#{get_sender(event)["id"]}.rnd"), do: File.rm!("#{get_sender(event)["id"]}.rnd")
               prices_data = format_data(res["prices"])
               text_reply(event, prices_data)
               |> ChatBot.send_message()
@@ -149,7 +150,7 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply_to_selection(%{"payload" => id}, event) do
-    File.rm!("#{get_sender(event)["id"]}.rnd")
+    if File.exists?("#{get_sender(event)["id"]}.rnd"), do: File.rm!("#{get_sender(event)["id"]}.rnd")
     res = Coingecko.lookup_market_chart!(id)
     prices_data = format_data(res["prices"])
     text_reply(event, prices_data)
