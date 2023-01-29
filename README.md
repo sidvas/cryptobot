@@ -13,7 +13,7 @@ You need the env vars from the repo admin to connect to the chatbot
 
 Deployment
 
-  * Deployment is using gigalixir (build config is held in buildpack_* flles)
+  * Deployment is using gigalixir (build config is held in *buildpack_* flles)
   * You need to be added to the project on gigalixir with your user account
   * Simply push the latest changes to master and use `git push gigalixir` to deploy the latest version
   * Your code is deployed to https://passionate-unlawful-redhead.gigalixirapp.com/
