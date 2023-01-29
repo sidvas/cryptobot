@@ -114,11 +114,18 @@ defmodule Cryptobot.MessageHandler do
             text_reply(event, "Sorry, no results found, try another search term, or say hi again to change your search type")
             |> ChatBot.send_message()
           else
-            buttons = Enum.map(top_5, fn e ->
+            buttons = Enum.map(Enum.take(top_5, 3), fn e ->
               {e["name"], e["id"]}
             end)
-            button_message(event, "Select the coin you want to view stats for; you can search again if your result is not shown", buttons)
-            |> ChatBot.send_message()
+            if Enum.count(buttons) <= 3 do
+              button_message(event, "Select the coin you want to view stats for; you can search again if your result is not shown", buttons)
+              |> ChatBot.send_message()
+            else
+              button_message(event, "Select the coin you want to view stats for; you can search again if your result is not shown", Enum.take(buttons, 3))
+              |> ChatBot.send_message()
+              button_message(event, "", Enum.slice(buttons, 3..5))
+              |> ChatBot.send_message()
+            end
           end
         end
       {:error, _s} ->
@@ -128,7 +135,6 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply_to_selection(%{"payload" => "search_by_" <> id_or_name}, event) do
-    IO.inspect(File.cwd())
     path = "#{get_sender(event)["id"]}.rnd"
 
     if id_or_name == "id" do
