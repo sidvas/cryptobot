@@ -171,7 +171,7 @@ defmodule Cryptobot.MessageHandler do
       time = DateTime.from_unix!(t, :millisecond)
             |> DateTime.to_date()
             |> Date.to_string()
-      time <> " Price: $#{Float.round(p, 5)} \n"
+      time <> " Price: $#{Float.round(p, 7)} \n"
     end)
     |> List.to_string()
   end
