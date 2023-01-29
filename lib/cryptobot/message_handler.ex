@@ -169,7 +169,8 @@ defmodule Cryptobot.MessageHandler do
   defp format_data(prices) do
     Enum.map(prices, fn [t, p] ->
       time = DateTime.from_unix!(t, :millisecond)
-             |> DateTime.to_string()
+            |> DateTime.to_date()
+            |> Date.to_string()
       time <> " Price: $#{Float.round(p, 5)} \n"
     end)
     |> List.to_string()
