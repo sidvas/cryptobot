@@ -123,7 +123,7 @@ defmodule Cryptobot.MessageHandler do
             else
               button_message(event, "Select the coin you want to view stats for; you can search again if your result is not shown", Enum.take(buttons, 3))
               |> ChatBot.send_message()
-              button_message(event, "", Enum.slice(buttons, 3..5))
+              button_message(event, "Facebook only allows showing up to 3 buttons, maybe it's one of these?", Enum.slice(buttons, 3..5))
               |> ChatBot.send_message()
             end
           end
