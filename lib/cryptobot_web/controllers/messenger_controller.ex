@@ -15,7 +15,7 @@ defmodule CryptobotWeb.MessengerController do
     end
   end
 
-  def handle_event(conn, event) do
+  def handle_webhook(conn, event) do
     Cryptobot.ChatBot.handle_webhook(event)
 
     conn
