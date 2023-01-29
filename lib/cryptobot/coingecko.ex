@@ -1,10 +1,5 @@
 defmodule Cryptobot.Coingecko do
 
-  def lookup_market_chart(coin_id) do
-    market_chart_url(coin_id)
-    |> HTTPoison.get()
-  end
-
   def lookup_market_chart!(coin_id) do
     res =
       market_chart_url(coin_id)

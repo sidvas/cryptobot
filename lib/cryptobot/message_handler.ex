@@ -97,15 +97,14 @@ defmodule Cryptobot.MessageHandler do
     case File.read("#{get_sender(event)["id"]}.rnd")  do
       {:ok, id_or_name} ->
         if id_or_name == "id" do
-          case Coingecko.lookup_market_chart(msg["text"]) do
-            {:ok, res} ->
+          res = Coingecko.lookup_market_chart!(msg["text"])
+          case res do
+            %{"error" => _err} ->
+              text_reply(event, "Uh oh no coin found with that ID, try again or type hi to change search type")
+            _ ->
               File.rm!("#{get_sender(event)["id"]}.rnd")
-              stats = Jason.decode!(res.body)
-              prices_data = format_data(stats["prices"])
+              prices_data = format_data(res["prices"])
               text_reply(event, prices_data)
-              |> ChatBot.send_message()
-            {:error, _s} ->
-              text_reply(event, "Uh oh no coin found with that ID")
               |> ChatBot.send_message()
           end
         else
