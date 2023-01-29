@@ -150,9 +150,7 @@ defmodule Cryptobot.MessageHandler do
   end
 
   def reply_to_selection(%{"payload" => id}, event) do
-    if File.exists?("#{get_sender(event)["id"]}.rnd") do
-      File.rm!("#{get_sender(event)["id"]}.rnd")
-    end
+    File.rm!("#{get_sender(event)["id"]}.rnd")
     res = Coingecko.lookup_market_chart!(id)
     prices_data = format_data(res["prices"])
     text_reply(event, prices_data)
@@ -172,7 +170,7 @@ defmodule Cryptobot.MessageHandler do
     Enum.map(prices, fn [t, p] ->
       time = DateTime.from_unix!(t, :millisecond)
              |> DateTime.to_string()
-      time <> " Price: $#{p} \n"
+      time <> " Price: $#{Float.round(p, 5)} \n"
     end)
     |> List.to_string()
   end
