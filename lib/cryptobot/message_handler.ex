@@ -108,7 +108,7 @@ defmodule Cryptobot.MessageHandler do
               |> ChatBot.send_message()
           end
         else
-          results = Coingecko.search!(id_or_name)
+          results = Coingecko.search!(msg["text"])
           top_5 = Enum.take(results["coins"], 5)
           if top_5 == [] do
             text_reply(event, "Sorry, no results found, try another search term, or say hi again to change your search type")
