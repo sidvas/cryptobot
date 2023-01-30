@@ -1,5 +1,6 @@
 defmodule Cryptobot.ChatBot do
   alias Cryptobot.MessageHandler
+  alias Cryptobot.MessageHelper
 
   def verify(params) do
     facebook_config = Application.get_env(:cryptobot, :facebook_config)
@@ -12,11 +13,11 @@ defmodule Cryptobot.ChatBot do
   end
 
   def handle_webhook(event) do
-    case MessageHandler.get_messaging(event) do
+    case MessageHelper.get_messaging(event) do
       %{"message" => msg} -> MessageHandler.reply(msg, event)
       %{"postback" => postback} -> MessageHandler.reply_to_selection(postback, event)
       _ ->
-        err_msg = MessageHandler.text_reply(event, "GG you messsed something up bad")
+        err_msg = MessageHelper.text_reply(event, "GG you messsed something up bad")
         send_message(err_msg)
     end
   end
