@@ -9,7 +9,7 @@ import Config
 
 # Configures the endpoint
 config :cryptobot, CryptobotWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "localhost", port: 4000],
   render_errors: [view: CryptobotWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Cryptobot.PubSub,
   live_view: [signing_salt: "TSsbEfsQ"],

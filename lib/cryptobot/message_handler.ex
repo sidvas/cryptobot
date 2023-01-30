@@ -22,7 +22,8 @@ defmodule Cryptobot.MessageHandler do
             _ ->
               if File.exists?("#{MessageHelper.get_sender(event)["id"]}.rnd"), do: File.rm!("#{MessageHelper.get_sender(event)["id"]}.rnd")
               prices_data = MessageHelper.format_data(res["prices"])
-              MessageHelper.text_reply(event, prices_data)
+              goodbye_msg = "Hope you're satisfied, if you want to search again, just say hi"
+              MessageHelper.text_reply(event, prices_data <> goodbye_msg)
               |> ChatBot.send_message()
           end
         else
@@ -70,7 +71,8 @@ defmodule Cryptobot.MessageHandler do
     if File.exists?("#{MessageHelper.get_sender(event)["id"]}.rnd"), do: File.rm!("#{MessageHelper.get_sender(event)["id"]}.rnd")
     res = Coingecko.lookup_market_chart!(id)
     prices_data = MessageHelper.format_data(res["prices"])
-    MessageHelper.text_reply(event, prices_data)
+    goodbye_msg = "Hope you're satisfied, if you want to search again, just say hi"
+    MessageHelper.text_reply(event, prices_data <> goodbye_msg)
     |> ChatBot.send_message()
   end
 
